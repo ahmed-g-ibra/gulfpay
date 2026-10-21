@@ -5,6 +5,7 @@ import {
 } from "./data.js";
 import { summarise, percentileRank, rankAgainstRange, verdictFor } from "./stats.js";
 import { t, tf, tx, setLang, getLang, restoreLang, NUM_LOCALE } from "./i18n.js";
+import { recordsFromCsv, normalise } from "./parse.js";
 
 const $ = (id) => document.getElementById(id);
 const ALL = "__all__";
@@ -27,98 +28,6 @@ const currencyName = (code) => tx("currency", code, FX[code]?.name ?? code);
 
 /* ---------------- loading ---------------- */
 
-function parseCsv(text) {
-  const rows = [];
-  let row = [], field = "", inQuotes = false;
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i];
-    if (inQuotes) {
-      if (c === '"') {
-        if (text[i + 1] === '"') { field += '"'; i++; }
-        else inQuotes = false;
-      } else field += c;
-    } else if (c === '"') inQuotes = true;
-    else if (c === ",") { row.push(field); field = ""; }
-    else if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
-    else if (c !== "\r") field += c;
-  }
-  if (field.length || row.length) { row.push(field); rows.push(row); }
-  return rows.filter(r => r.some(cell => cell.trim() !== ""));
-}
-
-const HEADER_MATCHERS = [
-  ["role",        h => h.includes("role") || h.includes("job title")],
-  ["level",       h => h.includes("level") || h.includes("seniority")],
-  ["country",     h => h.includes("country")],
-  ["city",        h => h.includes("city")],
-  ["companyType", h => h.includes("company type") || h.includes("employer type") || h.includes("type of company")],
-  ["years",       h => h.includes("years")],
-  ["currency",    h => h.includes("currency")],
-  ["base",        h => h.includes("base")],
-  ["allowances",  h => h.includes("allowance")],
-  ["bonus",       h => h.includes("bonus")],
-  ["workMode",    h => h.includes("remote") || h.includes("onsite") || h.includes("work mode")],
-  ["nationality", h => h.includes("nationality") || h.includes("passport")],
-  ["submitted",   h => h.includes("timestamp") || h.includes("date")],
-];
-
-function mapHeaders(headerRow) {
-  const map = {};
-  headerRow.forEach((raw, i) => {
-    const h = raw.toLowerCase().trim();
-    for (const [field, test] of HEADER_MATCHERS) {
-      if (map[field] === undefined && test(h)) { map[field] = i; break; }
-    }
-  });
-  return map;
-}
-
-const num = (v) => {
-  const n = parseFloat(String(v ?? "").replace(/[^0-9.\-]/g, ""));
-  return Number.isFinite(n) ? n : 0;
-};
-
-function matchKey(value, list, keyProp, labelProp) {
-  const v = String(value ?? "").trim().toLowerCase();
-  if (!v) return null;
-  const exact = list.find(x => String(x[keyProp]).toLowerCase() === v);
-  if (exact) return exact[keyProp];
-  const byLabel = list.find(x => String(x[labelProp]).toLowerCase() === v);
-  if (byLabel) return byLabel[keyProp];
-  const partial = list.find(x => String(x[labelProp]).toLowerCase().includes(v) || v.includes(String(x[labelProp]).toLowerCase()));
-  return partial ? partial[keyProp] : null;
-}
-
-function normalise(raw) {
-  const roleKey    = matchKey(raw.role, ROLES, "key", "label");
-  const levelKey   = matchKey(raw.level, LEVELS, "key", "label");
-  const countryKey = matchKey(raw.country, COUNTRIES, "code", "name");
-  if (!roleKey || !levelKey || !countryKey) return null;
-
-  const currency = String(raw.currency || countryByCode[countryKey].currency).toUpperCase();
-  const fx = FX[currency];
-  if (!fx) return null;
-
-  const base = num(raw.base);
-  if (base <= 0) return null;
-  const allowances = num(raw.allowances);
-  const bonusPct = num(raw.bonus);
-  const monthlyLocal = base + allowances + (base * 12 * (bonusPct / 100)) / 12;
-  const usd = monthlyLocal / fx.perUsd;
-  if (usd < 300 || usd > 80000) return null;
-
-  return {
-    role: roleKey, level: levelKey, country: countryKey,
-    city: String(raw.city || "").trim(),
-    companyType: COMPANY_TYPES.find(c => c.toLowerCase() === String(raw.companyType || "").trim().toLowerCase()) || "",
-    years: num(raw.years),
-    workMode: String(raw.workMode || "").trim(),
-    nationality: String(raw.nationality || "").trim(),
-    usd,
-    submitted: String(raw.submitted || "").trim(),
-  };
-}
-
 async function loadSubmissions() {
   if (CONFIG.sheetCsvUrl) {
     try {
@@ -126,18 +35,8 @@ async function loadSubmissions() {
                   "_=" + Math.floor(Date.now() / CONFIG.cacheTtlMs);
       const res = await fetch(url);
       if (res.ok) {
-        const rows = parseCsv(await res.text());
-        if (rows.length > 1) {
-          const map = mapHeaders(rows[0]);
-          const out = [];
-          for (const r of rows.slice(1)) {
-            const raw = {};
-            for (const [field, idx] of Object.entries(map)) raw[field] = r[idx];
-            const rec = normalise(raw);
-            if (rec) out.push(rec);
-          }
-          return out;
-        }
+        const records = recordsFromCsv(await res.text());
+        if (records.length) return records;
       }
     } catch (err) {
       console.warn("Sheet fetch failed, falling back to bundled data.", err);

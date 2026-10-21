@@ -111,6 +111,29 @@ English and Arabic, switched by the button in the header and remembered in
 each question title in the Google Form; the site matches columns by English
 keyword, so keep the English word in the title if you do.
 
+## Tests
+
+No framework, no install. Plain Node:
+
+```bash
+node test/parse.test.mjs      # CSV parsing, currency, company matching, junk rejection
+node test/roundtrip.test.mjs  # every form option the scripts generate, through the real parser
+```
+
+The round-trip test reads the option strings out of `docs/translate-form.gs` and
+feeds them through `assets/js/parse.js`, so a change to the form spec that
+would silently drop submissions fails the test instead.
+
+## Making the form bilingual
+
+Run `docs/translate-form.gs` from <https://script.google.com> while signed in as
+the form owner. It edits the existing form in place, so the form link and the
+published CSV keep working and `config.js` needs no change.
+
+Every question title keeps its English keyword, because the site maps
+spreadsheet columns by keyword. Dropdown options become `English · العربية`;
+the parser matches either half.
+
 ## Project layout
 
 ```
