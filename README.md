@@ -1,5 +1,7 @@
 # GulfPay
 
+**Live: <https://ahmed-g-ibra.github.io/gulfpay/>**
+
 Anonymous, crowdsourced tech salary data for the GCC — UAE, Saudi Arabia, Qatar, Kuwait, Bahrain and Oman.
 
 Static site. No backend, no database, no build step. Data lives in a Google Sheet you control; the page reads it as CSV in the browser.
