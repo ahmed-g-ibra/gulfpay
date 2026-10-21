@@ -39,7 +39,13 @@ This is the whole product. Break it and there is no reason for anyone to visit.
 
 ### 1. Create the Google Form
 
-The exact questions and option lists are in [docs/form-spec.md](docs/form-spec.md).
+Fastest route: paste [docs/create-form.gs](docs/create-form.gs) into
+<https://script.google.com> while signed in to your personal account and run
+`createGulfPayForm`. It builds all 12 questions, creates the response sheet and
+links them, then logs both URLs.
+
+To build it by hand instead, the exact questions and option lists are in
+[docs/form-spec.md](docs/form-spec.md).
 
 New Google Form, title "Add your salary — GulfPay". Turn **off** "Collect email addresses". Add these questions, in this order:
 
