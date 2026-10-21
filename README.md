@@ -31,7 +31,15 @@ This is the whole product. Break it and there is no reason for anyone to visit.
 
 ## Setup: the data pipeline (about 20 minutes, no code)
 
+> **Use a personal Google account, not a work one.** A form created on a
+> Google Workspace account is restricted to that organisation by default, so
+> outside submitters hit a sign-in wall. Beyond that, a public salary project
+> on your employer’s Workspace means their IT can read the responses and the
+> data ownership is theirs, not yours.
+
 ### 1. Create the Google Form
+
+The exact questions and option lists are in [docs/form-spec.md](docs/form-spec.md).
 
 New Google Form, title "Add your salary — GulfPay". Turn **off** "Collect email addresses". Add these questions, in this order:
 
