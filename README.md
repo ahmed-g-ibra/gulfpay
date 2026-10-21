@@ -93,6 +93,24 @@ To use a custom domain: add a `CNAME` file containing the domain, then point a `
 
 ---
 
+## Languages
+
+English and Arabic, switched by the button in the header and remembered in
+`localStorage`. First-time Arabic speakers land in Arabic automatically
+(`navigator.language`).
+
+- UI strings live in `assets/js/i18n.js`. Every key must exist in both languages.
+- Role, level, country and company names are translated in the `TAXONOMY` map
+  in the same file, keyed to `data.js`.
+- Layout flips to RTL via `dir="rtl"` on `<html>`. The CSS uses logical
+  properties, so there is no mirrored stylesheet to maintain.
+- Figures stay in Latin digits in both languages — Gulf financial writing does
+  the same, and it keeps table columns aligned.
+
+**The submission form is English-only.** Translating it means adding Arabic to
+each question title in the Google Form; the site matches columns by English
+keyword, so keep the English word in the title if you do.
+
 ## Project layout
 
 ```
