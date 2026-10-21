@@ -134,6 +134,19 @@ Every question title keeps its English keyword, because the site maps
 spreadsheet columns by keyword. Dropdown options become `English · العربية`;
 the parser matches either half.
 
+## Versioning and rollback
+
+Every release is an annotated git tag. [CHANGELOG.md](CHANGELOG.md) says what
+changed in each one and carries the rollback commands.
+
+```bash
+git tag -n9            # list versions with their notes
+git diff v0.4.0 v0.5.0 # what changed between two
+```
+
+Only `main` deploys to GitHub Pages. Checking out a tag to inspect an older
+version changes nothing on the live site.
+
 ## Project layout
 
 ```
