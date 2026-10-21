@@ -46,23 +46,25 @@ export const WORK_MODES = ["Onsite", "Hybrid", "Remote"];
 
 // Monthly TOTAL PACKAGE in USD (base + housing/transport allowances + bonus,
 // averaged monthly), benchmarked to the UAE. Country multiplier applied on top.
-// Built from public recruiter salary guides (2025-2026), then scaled down
-// against first-hand reports from people working in the region: the published
-// guides consistently ran high. IT Support and DevOps are anchored directly on
-// reported Dubai figures; the other nine were scaled x0.70 to match.
+// Benchmarked against SELF-REPORTED salary data (Glassdoor, Bayt) up to senior
+// level, and against recruiter guides (Cooper Fitch, Hays) at manager and above.
+// The two source types disagree by 30-50% because they measure different
+// populations; this site collects self-reported data, so it follows that side.
+// Full provenance, including what each figure was checked against and where the
+// weak spots are, is in docs/SOURCES.md.
 // Treat as indicative only — real submissions replace these per cohort.
 export const ROLES = [
-  { key: "swe_be",   label: "Software Engineer (Backend)",  ref: { junior: 2450, mid: 4200, senior: 6300,  lead: 8750, manager: 9450, head: 13300 } },
-  { key: "swe_fe",   label: "Software Engineer (Frontend)", ref: { junior: 2250, mid: 3850, senior: 5750,  lead: 8050, manager: 8950, head: 12600 } },
-  { key: "mobile",   label: "Mobile Engineer",              ref: { junior: 2300, mid: 4050, senior: 6000,  lead: 8400, manager: 9100, head: 12600 } },
-  { key: "devops",   label: "DevOps / SRE / Platform",      ref: { junior: 2300, mid: 4085, senior: 6000,  lead: 8100,  manager: 9000,  head: 11700 } },
-  { key: "cloud",    label: "Cloud / Solutions Architect",  ref: { junior: 2800, mid: 5600, senior: 8050, lead: 10500, manager: 11550, head: 14700 } },
-  { key: "data_eng", label: "Data Engineer",                ref: { junior: 2650, mid: 4550, senior: 6650,  lead: 8750, manager: 9800, head: 12950 } },
-  { key: "ds_ml",    label: "Data Scientist / ML Engineer", ref: { junior: 2800, mid: 4900, senior: 7200, lead: 9450, manager: 10500, head: 13650 } },
-  { key: "security", label: "Cybersecurity Engineer",       ref: { junior: 2650, mid: 4750, senior: 6850,  lead: 9100, manager: 10150, head: 13300 } },
-  { key: "qa",       label: "QA / Test Engineer",           ref: { junior: 1900, mid: 3200, senior: 4750,  lead: 6300,  manager: 7550, head: 9800 } },
-  { key: "pm",       label: "Product Manager",              ref: { junior: 2800, mid: 5100, senior: 7200, lead: 9450, manager: 11050, head: 14700 } },
-  { key: "itsupport",label: "IT Support / Sysadmin",        ref: { junior: 1500, mid: 2450, senior: 4085, lead: 5200,  manager: 6500,  head: 9100 } },
+  { key: "swe_be",   label: "Software Engineer (Backend)",  ref: { junior: 2450, mid: 4200, senior: 6300,  lead: 8750, manager: 10850, head: 15950 } },
+  { key: "swe_fe",   label: "Software Engineer (Frontend)", ref: { junior: 2250, mid: 3850, senior: 5750,  lead: 8050, manager: 10300, head: 15100 } },
+  { key: "mobile",   label: "Mobile Engineer",              ref: { junior: 2300, mid: 4050, senior: 6000,  lead: 8400, manager: 10450, head: 15100 } },
+  { key: "devops",   label: "DevOps / SRE / Platform",      ref: { junior: 2300, mid: 4085, senior: 6000,  lead: 8100,  manager: 10350,  head: 14050 } },
+  { key: "cloud",    label: "Cloud / Solutions Architect",  ref: { junior: 2800, mid: 5600, senior: 8050, lead: 10500, manager: 13300, head: 17650 } },
+  { key: "data_eng", label: "Data Engineer",                ref: { junior: 2650, mid: 4550, senior: 6650,  lead: 8750, manager: 11250, head: 15550 } },
+  { key: "ds_ml",    label: "Data Scientist / ML Engineer", ref: { junior: 2800, mid: 4900, senior: 7200, lead: 9450, manager: 12050, head: 16400 } },
+  { key: "security", label: "Cybersecurity Engineer",       ref: { junior: 2650, mid: 4750, senior: 6850,  lead: 9100, manager: 11650, head: 15950 } },
+  { key: "qa",       label: "QA / Test Engineer",           ref: { junior: 1900, mid: 3200, senior: 4750,  lead: 6300,  manager: 8700, head: 11750 } },
+  { key: "pm",       label: "Product Manager",              ref: { junior: 2800, mid: 5100, senior: 7200, lead: 9450, manager: 12700, head: 17650 } },
+  { key: "itsupport",label: "IT Support / Sysadmin",        ref: { junior: 1500, mid: 2450, senior: 4085, lead: 5200,  manager: 7450,  head: 10900 } },
 ];
 
 // Spread around the indicative median.

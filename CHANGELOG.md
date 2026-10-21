@@ -7,6 +7,30 @@ inspected directly — see [Rolling back](#rolling-back).
 The project stays on 0.x until it launches with real submission data. Today every
 figure on the site is still an indicative estimate.
 
+## [0.6.0] — 2026-10-22
+
+### Changed
+- Manager rows raised x1.15 and head rows x1.20. The earlier flat x0.70 fixed
+  the middle of each ladder and broke the top: manager figures had fallen 15–30%
+  under every recruiter guide. Junior through senior are untouched.
+- Methodology text now explains which source type each part of the table is
+  benchmarked against, in both languages.
+
+### Added
+- [docs/SOURCES.md](docs/SOURCES.md) — provenance for every figure, the
+  published sources checked against it, and the known weak spots.
+
+### Verified against published sources
+- Dubai DevOps mid publishes at 15,002 AED against Glassdoor's self-reported
+  median of 16,000 (79 salaries).
+- Backend software engineer mid publishes at 15,425 against Glassdoor's
+  13,000–16,000 (1,097 salaries).
+- The spread (p25 x0.65 / p75 x1.45) reproduces Glassdoor's observed band of
+  9,258–23,500 around 16,000, which is x0.58 to x1.47.
+- Published sources disagree by a factor of three. Recruiter guides measure
+  senior placements; job boards measure budget employers. This site collects
+  self-reported data and benchmarks accordingly.
+
 ## [0.5.0] — 2026-10-22
 
 ### Added

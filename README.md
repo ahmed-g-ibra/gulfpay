@@ -159,6 +159,12 @@ assets/js/app.js        loading, filtering, rendering, the offer checker
 data/submissions.json   fallback data when no sheet is configured (empty)
 ```
 
+## Where the numbers come from
+
+[docs/SOURCES.md](docs/SOURCES.md) records what every figure was benchmarked
+against, which published sources were checked, and which numbers are weakest.
+Read it before quoting anything on the site.
+
 ## Adjusting the indicative ranges
 
 `ROLES[].ref` in `assets/js/data.js` holds a **monthly USD total package** per level, benchmarked to the UAE. Country differences come from `COUNTRIES[].multiplier`. Change one number and every view updates.
