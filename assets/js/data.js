@@ -14,7 +14,10 @@ export const FX = {
 
 export const COUNTRIES = [
   { code: "AE", name: "UAE",          currency: "AED", multiplier: 1.00, cities: ["Dubai", "Abu Dhabi", "Sharjah", "Other"] },
-  { code: "SA", name: "Saudi Arabia", currency: "SAR", multiplier: 1.05, cities: ["Riyadh", "Jeddah", "Khobar/Dammam", "NEOM", "Other"] },
+  { code: "SA", name: "Saudi Arabia", currency: "SAR",
+    // Riyadh pays over Dubai at the senior end, at or just under it below that.
+    multiplier: { junior: 0.95, mid: 1.00, senior: 1.10, lead: 1.15, manager: 1.15, head: 1.20 },
+    cities: ["Riyadh", "Jeddah", "Khobar/Dammam", "NEOM", "Other"] },
   { code: "QA", name: "Qatar",        currency: "QAR", multiplier: 1.02, cities: ["Doha", "Other"] },
   { code: "KW", name: "Kuwait",       currency: "KWD", multiplier: 0.92, cities: ["Kuwait City", "Other"] },
   { code: "BH", name: "Bahrain",      currency: "BHD", multiplier: 0.78, cities: ["Manama", "Other"] },
@@ -56,11 +59,14 @@ export const ROLES = [
   { key: "security", label: "Cybersecurity Engineer",       ref: { junior: 3800, mid: 6800, senior: 9800,  lead: 13000, manager: 14500, head: 19000 } },
   { key: "qa",       label: "QA / Test Engineer",           ref: { junior: 2700, mid: 4600, senior: 6800,  lead: 9000,  manager: 10800, head: 14000 } },
   { key: "pm",       label: "Product Manager",              ref: { junior: 4000, mid: 7300, senior: 10300, lead: 13500, manager: 15800, head: 21000 } },
-  { key: "itsupport",label: "IT Support / Sysadmin",        ref: { junior: 1900, mid: 3200, senior: 4900,  lead: 6500,  manager: 8100,  head: 11400 } },
+  { key: "itsupport",label: "IT Support / Sysadmin",        ref: { junior: 1500, mid: 2450, senior: 4085, lead: 5200,  manager: 6500,  head: 9100 } },
 ];
 
 // Spread around the indicative median.
-export const REF_SPREAD = { p25: 0.82, p75: 1.22 };
+// Deliberately wide. In the GCC the same role at the same company can differ by
+// a factor of two depending on employer type and which passport you hold, so a
+// narrow band would misreport most people as outliers.
+export const REF_SPREAD = { p25: 0.65, p75: 1.45 };
 
 export const NATIONALITY_GROUPS = [
   "GCC national",
@@ -84,7 +90,10 @@ export function referenceFor(roleKey, levelKey, countryCode) {
   if (!role || !country) return null;
   const base = role.ref[levelKey];
   if (!base) return null;
-  const median = Math.round(base * country.multiplier);
+  const mult = typeof country.multiplier === "number"
+    ? country.multiplier
+    : (country.multiplier[levelKey] ?? 1);
+  const median = Math.round(base * mult);
   return {
     median,
     p25: Math.round(median * REF_SPREAD.p25),
