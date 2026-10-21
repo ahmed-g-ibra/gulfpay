@@ -454,8 +454,12 @@ function applyConfig() {
   $("minN2").textContent = CONFIG.minSensitiveCohortSize;
   document.querySelectorAll(".minN").forEach(el => el.textContent = CONFIG.minCohortSize);
 
-  const repo = document.querySelector('meta[name="repo-url"]');
-  if (repo) $("repoLink").href = repo.content;
+  if (CONFIG.repoUrl) {
+    $("repoLink").href = CONFIG.repoUrl;
+    $("repoLink").target = "_blank";
+    $("repoLink").rel = "noopener";
+    $("repoWrap").hidden = false;
+  }
 }
 
 function restoreTheme() {

@@ -2,6 +2,9 @@
 // Everything you need to operate the site lives in this one file.
 
 export const CONFIG = {
+  // Public URL of this repo. Leave empty to hide the footer source link.
+  repoUrl: "",
+
   // Public URL of your Google Form (the "Send > link" URL).
   // Leave empty to hide the submit buttons until you have one.
   formUrl: "",
