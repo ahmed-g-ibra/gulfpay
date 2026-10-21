@@ -52,7 +52,7 @@ export const ROLES = [
   { key: "swe_be",   label: "Software Engineer (Backend)",  ref: { junior: 3500, mid: 6000, senior: 9000,  lead: 12500, manager: 13500, head: 19000 } },
   { key: "swe_fe",   label: "Software Engineer (Frontend)", ref: { junior: 3200, mid: 5500, senior: 8200,  lead: 11500, manager: 12800, head: 18000 } },
   { key: "mobile",   label: "Mobile Engineer",              ref: { junior: 3300, mid: 5800, senior: 8600,  lead: 12000, manager: 13000, head: 18000 } },
-  { key: "devops",   label: "DevOps / SRE / Platform",      ref: { junior: 3800, mid: 6800, senior: 10000, lead: 13500, manager: 15000, head: 19500 } },
+  { key: "devops",   label: "DevOps / SRE / Platform",      ref: { junior: 2300, mid: 4085, senior: 6000,  lead: 8100,  manager: 9000,  head: 11700 } },
   { key: "cloud",    label: "Cloud / Solutions Architect",  ref: { junior: 4000, mid: 8000, senior: 11500, lead: 15000, manager: 16500, head: 21000 } },
   { key: "data_eng", label: "Data Engineer",                ref: { junior: 3800, mid: 6500, senior: 9500,  lead: 12500, manager: 14000, head: 18500 } },
   { key: "ds_ml",    label: "Data Scientist / ML Engineer", ref: { junior: 4000, mid: 7000, senior: 10300, lead: 13500, manager: 15000, head: 19500 } },
