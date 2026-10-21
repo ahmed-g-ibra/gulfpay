@@ -147,8 +147,14 @@ function renderTiles(rows) {
     <div class="tile"><span>${x.label}</span><b>${x.value}</b><small>${x.sub}</small></div>`).join("");
 }
 
-function renderTable(rows) {
-  $("emptyState").hidden = rows.length > 0;
+function renderTable(rows, filters) {
+  const empty = $("emptyState");
+  empty.hidden = rows.length > 0;
+  // A company filter suppresses the indicative rows, because the estimates carry
+  // no company dimension. Say so rather than showing a bare "no matches".
+  empty.textContent = (rows.length === 0 && filters.company !== ALL)
+    ? t("explore.emptyCompany")
+    : t("explore.empty");
   $("tbody").innerHTML = rows.map(r => `
     <tr>
       <td>${roleLabel(r.role)}</td>
@@ -213,8 +219,27 @@ function renderAll() {
   state.display = $("fDisplay").value;
   const rows = buildRows(filters);
   renderTiles(rows);
-  renderTable(rows);
+  renderTable(rows, filters);
   renderCharts(rows);
+}
+
+// Latest submission date, or nothing if no submission has ever arrived. Showing
+// today's date here would claim freshness the data does not have.
+function renderUpdated() {
+  const times = state.submissions
+    .map(s => Date.parse(s.submitted))
+    .filter(Number.isFinite);
+  const label = $("statUpdated").nextElementSibling;
+  if (!times.length) {
+    $("statUpdated").textContent = "—";
+    label.dataset.i18n = "hero.statNoData";
+  } else {
+    $("statUpdated").textContent = new Date(Math.max(...times))
+      .toLocaleDateString(getLang() === "ar" ? "ar-EG-u-nu-latn" : "en-GB",
+        { day: "numeric", month: "short" });
+    label.dataset.i18n = "hero.stat4";
+  }
+  label.textContent = t(label.dataset.i18n);
 }
 
 /* ---------------- offer checker ---------------- */
@@ -227,6 +252,21 @@ function runCheck() {
 
   if (!(amount > 0)) { box.hidden = true; return; }
   const usd = amount / FX[currency].perUsd;
+
+  // Same bounds the submission parser enforces, so the checker cannot accept a
+  // figure the site would reject.
+  if (usd < 300 || usd > 80000) {
+    $("cVerdict").hidden = true;
+    $("cExplain").textContent = t("check.outOfRange");
+    $("cStrip").hidden = true;
+    $("cBand").hidden = true;
+    $("cBasis").textContent = "";
+    box.hidden = false;
+    return;
+  }
+  $("cVerdict").hidden = false;
+  $("cStrip").hidden = false;
+  $("cBand").hidden = false;
 
   const cohort = state.submissions
     .filter(s => s.role === role && s.level === level && s.country === country)
@@ -243,7 +283,9 @@ function runCheck() {
     if (!ref) { box.hidden = true; return; }
     pct = rankAgainstRange(usd, ref);
     range = ref;
-    basis = tf("check.basisRef", { n: cohort.length, need: CONFIG.minCohortSize });
+    basis = cohort.length === 0
+      ? tf("check.basisRefNone", { need: CONFIG.minCohortSize })
+      : tf("check.basisRef", { n: cohort.length, need: CONFIG.minCohortSize });
   }
 
   const v = verdictFor(pct);
@@ -338,16 +380,41 @@ function applyConfigText() {
 function switchLang(lang) {
   setLang(lang);
   applyTranslations();
+  applyMeta();
   populateSelects();
+  renderUpdated();
   renderAll();
   runCheck();
+}
+
+// 12. the description and social tags must follow the language, not stay English.
+function applyMeta() {
+  const ar = getLang() === "ar";
+  const desc = ar
+    ? "رواتب التقنية في الإمارات والسعودية وقطر والكويت والبحرين وعُمان. بيانات مجهولة المصدر يشارك بها العاملون، وأداة تحقّق من عدالة عرضك."
+    : "Crowdsourced tech salary data for the UAE, Saudi Arabia, Qatar, Kuwait, Bahrain and Oman. See what engineers, DevOps, data and product people actually earn, and check whether your offer is fair.";
+  const title = document.title;
+  const set = (sel, val) => { const el = document.querySelector(sel); if (el) el.content = val; };
+  set('meta[name="description"]', desc);
+  set('meta[property="og:description"]', desc);
+  set('meta[property="og:title"]', title);
+  set('meta[name="twitter:description"]', desc);
+  set('meta[name="twitter:title"]', title);
+  set('meta[property="og:locale"]', ar ? "ar_AE" : "en_US");
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.href = "https://ahmed-g-ibra.github.io/gulfpay/" + (ar ? "?lang=ar" : "");
 }
 
 function wireEvents() {
   ["fCountry", "fRole", "fLevel", "fCompany", "fDisplay"].forEach(id =>
     $(id).addEventListener("change", renderAll));
-  ["cRole", "cLevel", "cCountry", "cCurrency"].forEach(id =>
+  ["cRole", "cLevel", "cCurrency"].forEach(id =>
     $(id).addEventListener("change", runCheck));
+  // Country and currency must agree, or the checker answers a malformed question.
+  $("cCountry").addEventListener("change", () => {
+    $("cCurrency").value = countryByCode[$("cCountry").value].currency;
+    runCheck();
+  });
   $("cAmount").addEventListener("input", runCheck);
 
   const chip = (el, key) => el.addEventListener("click", () => {
@@ -403,12 +470,12 @@ async function init() {
   populateSelects();
   applyConfig();
   applyTranslations();
+  applyMeta();
   wireEvents();
 
   state.submissions = await loadSubmissions();
   $("statCount").textContent = state.submissions.length;
-  $("statUpdated").textContent = new Date().toLocaleDateString(
-    getLang() === "ar" ? "ar-EG-u-nu-latn" : "en-GB", { day: "numeric", month: "short" });
+  renderUpdated();
 
   renderAll();
   runCheck();

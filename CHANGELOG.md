@@ -7,6 +7,48 @@ inspected directly — see [Rolling back](#rolling-back).
 The project stays on 0.x until it launches with real submission data. Today every
 figure on the site is still an indicative estimate.
 
+## [0.7.0] — 2026-10-22
+
+Full QA pass. Eighteen findings, all fixed.
+
+### Fixed — user flows
+- Filtering by company type returned an empty table reading "No rows match
+  these filters", which made a working filter look broken. Indicative ranges
+  carry no company dimension, so the empty state now says so.
+- "Last updated" showed today's date whether or not any data existed. It now
+  reads the latest submission timestamp, or shows "no data yet".
+- The offer checker accepted a country and currency that disagreed, answering a
+  malformed question with a confident percentile. Changing country now sets the
+  matching currency.
+- The checker accepted any amount, including 99,999,999. It now applies the same
+  300–80,000 USD bounds the submission parser uses, and says so.
+
+### Fixed — SEO
+- Arabic was invisible to search engines: it lived only in JavaScript applied at
+  runtime, and crawlers got English. Arabic now has a URL (`?lang=ar`), which the
+  sitemap and hreflang point at.
+- hreflang claimed two language versions at one identical URL.
+- The meta description, Open Graph and Twitter tags stayed English in Arabic.
+  They now follow the language, as does the canonical.
+- Added robots.txt and sitemap.xml, both previously 404.
+- Added a 1200x630 social card. Shares rendered as bare text links before.
+
+### Fixed — content
+- The warning notice still described the old recruiter-guide methodology,
+  contradicting the methodology section on the same page since 0.6.0.
+- "Submissions open soon" survived four versions after the form went live.
+- The methodology had grown into one 110-word paragraph; it is five bullets now.
+- Grammar in the offer-checker sentence: "A DevOps / SRE / Platform at Mid level
+  in UAE earning..." restructured to avoid the bare noun phrase and the missing
+  article.
+- "Median of shown", inconsistent capitalisation in the percentile band, and
+  "switch the table to a different filter".
+- A cohort with zero submissions read "only 0 real submissions so far".
+
+### Fixed — accessibility
+- Added a skip link, a table caption, and `scope="col"` on every header cell.
+- `.sr-only` was defined in CSS and used nowhere; it now carries the caption.
+
 ## [0.6.0] — 2026-10-22
 
 ### Changed

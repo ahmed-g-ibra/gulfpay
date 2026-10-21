@@ -10,12 +10,25 @@
 <meta property="og:title" content="GulfPay — real tech salaries in the GCC">
 <meta property="og:description" content="What tech people actually earn in the Gulf. Anonymous, crowdsourced, free.">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="GulfPay">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ahmed-g-ibra.github.io/gulfpay/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="GulfPay — what tech people actually earn in the Gulf">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GulfPay — real tech salaries in the GCC">
+<meta name="twitter:description" content="What tech people actually earn in the Gulf. Anonymous, crowdsourced, free.">
+<meta name="twitter:image" content="https://ahmed-g-ibra.github.io/gulfpay/assets/og.jpg">
 <link rel="alternate" hreflang="en" href="https://ahmed-g-ibra.github.io/gulfpay/">
-<link rel="alternate" hreflang="ar" href="https://ahmed-g-ibra.github.io/gulfpay/">
+<link rel="alternate" hreflang="ar" href="https://ahmed-g-ibra.github.io/gulfpay/?lang=ar">
+<link rel="alternate" hreflang="x-default" href="https://ahmed-g-ibra.github.io/gulfpay/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232a78d6'/></svg>">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+
+<a href="#top" class="skip-link" data-i18n="skip.link">Skip to content</a>
 
 <header class="site">
   <div class="bar">
@@ -69,7 +82,7 @@
           <span class="label" id="cLabel">—</span>
         </div>
         <p class="small" id="cExplain" style="margin:0"></p>
-        <div class="strip" aria-hidden="true">
+        <div class="strip" id="cStrip" aria-hidden="true">
           <div class="fill" id="cFill" style="width:0%"></div>
           <div class="you" id="cYou" style="inset-inline-start:0%"></div>
         </div>
@@ -78,7 +91,7 @@
           <span data-i18n="check.mid">median</span>
           <span data-i18n="check.high">top of market</span>
         </div>
-        <div class="band">
+        <div class="band" id="cBand">
           <div><span data-i18n="check.p25">25th percentile</span><b id="cP25">—</b></div>
           <div><span data-i18n="check.p50">Median</span><b id="cP50">—</b></div>
           <div><span data-i18n="check.p75">75th percentile</span><b id="cP75">—</b></div>
@@ -113,15 +126,16 @@
 
     <div class="table-scroll">
       <table id="dataTable">
+        <caption class="sr-only" data-i18n="table.caption">Median monthly total package by role, level and country</caption>
         <thead>
           <tr>
-            <th data-i18n="th.role">Role</th>
-            <th data-i18n="th.level">Level</th>
-            <th data-i18n="th.country">Country</th>
-            <th data-i18n="th.company">Company</th>
-            <th class="num" data-i18n="th.package">Monthly package</th>
-            <th class="num" data-i18n="th.range">Range</th>
-            <th data-i18n="th.source">Source</th>
+            <th scope="col" data-i18n="th.role">Role</th>
+            <th scope="col" data-i18n="th.level">Level</th>
+            <th scope="col" data-i18n="th.country">Country</th>
+            <th scope="col" data-i18n="th.company">Company</th>
+            <th scope="col" class="num" data-i18n="th.package">Monthly package</th>
+            <th scope="col" class="num" data-i18n="th.range">Range</th>
+            <th scope="col" data-i18n="th.source">Source</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>

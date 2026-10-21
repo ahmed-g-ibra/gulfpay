@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ahmed-g-ibra.github.io/gulfpay/sitemap.xml

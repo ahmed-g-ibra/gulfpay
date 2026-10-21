@@ -267,3 +267,12 @@ footer.site a { color: var(--ink-2); }
 /* The verdict dot sits before the label in reading order either way. */
 [dir="rtl"] .verdict .label::before { content: ""; }
 [dir="rtl"] .verdict .label::after { content: " ●"; }
+
+/* Skip link: visible only when focused. */
+.skip-link {
+  position: absolute; inset-inline-start: -9999px; top: 8px; z-index: 100;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 16px; font-weight: 600; text-decoration: none;
+}
+.skip-link:focus { inset-inline-start: 12px; outline: 2px solid var(--series-1); outline-offset: 2px; }
+.verdict[hidden], .strip[hidden], .band[hidden] { display: none; }
