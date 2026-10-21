@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GulfPay — real tech salaries in the GCC</title>
+<meta name="description" content="Crowdsourced tech salary data for the UAE, Saudi Arabia, Qatar, Kuwait, Bahrain and Oman. See what engineers, DevOps, data and product people actually earn — and check whether your offer is fair.">
+<link rel="canonical" href="https://example.github.io/gulfpay/">
+<meta property="og:title" content="GulfPay — real tech salaries in the GCC">
+<meta property="og:description" content="What tech people actually earn in the Gulf. Anonymous, crowdsourced, free.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232a78d6'/></svg>">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="bar">
+    <a class="brand" href="#top"><span class="dot"></span> GulfPay</a>
+    <span class="spacer"></span>
+    <button class="iconbtn" id="themeToggle" aria-label="Switch colour theme" title="Switch theme">◐</button>
+    <a class="btn btn-primary" id="ctaHeader" href="#" hidden>Add your salary</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero wrap">
+    <span class="eyebrow">UAE · Saudi · Qatar · Kuwait · Bahrain · Oman</span>
+    <h1>What tech people<br>actually earn in the Gulf.</h1>
+    <p class="lead">Salary in the GCC is decided in private and guessed at in public. GulfPay collects it anonymously and publishes the numbers — total package, not just base, so you can tell a real offer from a dressed-up one.</p>
+    <div class="cta">
+      <a class="btn btn-primary" id="ctaHero" href="#" hidden>Add your salary — anonymous, 60 seconds</a>
+      <a class="btn btn-ghost" href="#check">Check if your offer is fair</a>
+    </div>
+    <div class="counter">
+      <div><b id="statCount">—</b><span>community submissions</span></div>
+      <div><b id="statRoles">11</b><span>roles tracked</span></div>
+      <div><b id="statCountries">6</b><span>countries</span></div>
+      <div><b id="statUpdated">—</b><span>last updated</span></div>
+    </div>
+    <div class="notice" id="seedNotice" style="margin-top:28px">
+      <span class="ico">⚠︎</span>
+      <p><b>Read this first.</b> Cohorts with fewer than <span id="minN">5</span> real submissions show an <b>indicative range</b> — an estimate compiled from public recruiter salary guides, <b>not</b> verified data. Those rows are labelled <span class="pill ref">indicative</span>. Real submissions are labelled <span class="pill community">community</span> and replace the estimate as soon as a cohort has enough of them.</p>
+    </div>
+  </div>
+
+  <!-- CHECK YOUR OFFER -->
+  <section class="wrap" id="check">
+    <div class="sec-head">
+      <h2>Check your offer</h2>
+      <p>Enter the total monthly package you're being offered — base plus housing, transport and any other cash allowance. We'll show where it sits.</p>
+    </div>
+    <div class="card">
+      <div class="grid-fields">
+        <div class="field">
+          <label for="cRole">Role</label>
+          <select id="cRole"></select>
+        </div>
+        <div class="field">
+          <label for="cLevel">Level</label>
+          <select id="cLevel"></select>
+        </div>
+        <div class="field">
+          <label for="cCountry">Country</label>
+          <select id="cCountry"></select>
+        </div>
+        <div class="field">
+          <label for="cAmount">Monthly package</label>
+          <input id="cAmount" type="number" min="0" step="100" placeholder="e.g. 25000" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="cCurrency">Currency</label>
+          <select id="cCurrency"></select>
+        </div>
+      </div>
+
+      <div class="result" id="cResult" hidden>
+        <div class="verdict" id="cVerdict">
+          <span class="pct" id="cPct">—</span>
+          <span class="label" id="cLabel">—</span>
+        </div>
+        <p class="small" id="cExplain" style="margin:0"></p>
+        <div class="strip" aria-hidden="true">
+          <div class="fill" id="cFill" style="width:0%"></div>
+          <div class="you" id="cYou" style="left:0%"></div>
+        </div>
+        <div class="strip-labels"><span>bottom of market</span><span>median</span><span>top of market</span></div>
+        <div class="band">
+          <div><span>25th percentile</span><b id="cP25">—</b></div>
+          <div><span>Median</span><b id="cP50">—</b></div>
+          <div><span>75th percentile</span><b id="cP75">—</b></div>
+        </div>
+        <p class="small muted" id="cBasis" style="margin:14px 0 0"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLORER -->
+  <section class="wrap" id="explore">
+    <div class="sec-head">
+      <h2>Explore the data</h2>
+      <p>Filter by country, role, level and company type. Every figure is a <b>monthly total package</b>, shown in the display currency you pick.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:22px">
+      <div class="grid-fields">
+        <div class="field">
+          <label for="fCountry">Country</label>
+          <select id="fCountry"></select>
+        </div>
+        <div class="field">
+          <label for="fRole">Role</label>
+          <select id="fRole"></select>
+        </div>
+        <div class="field">
+          <label for="fLevel">Level</label>
+          <select id="fLevel"></select>
+        </div>
+        <div class="field">
+          <label for="fCompany">Company type</label>
+          <select id="fCompany"></select>
+        </div>
+        <div class="field">
+          <label for="fDisplay">Show amounts in</label>
+          <select id="fDisplay"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="tiles" id="tiles"></div>
+
+    <div class="toggle-row">
+      <button class="chip" id="chipCommunity" aria-pressed="true">Community submissions</button>
+      <button class="chip" id="chipRef" aria-pressed="true">Indicative ranges</button>
+    </div>
+
+    <div class="table-scroll">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>Role</th><th>Level</th><th>Country</th><th>Company</th>
+            <th class="num">Monthly package</th><th class="num">Range</th><th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty" id="emptyState" hidden>No rows match these filters.</div>
+    </div>
+  </section>
+
+  <!-- CHARTS -->
+  <section class="wrap" id="charts">
+    <div class="sec-head">
+      <h2>Median package by role and country</h2>
+      <p>Median monthly total package for the currently selected filters. Bars use whichever source each cohort qualifies for.</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>By role</h3>
+        <p class="small muted" id="chartRoleSub" style="margin-bottom:14px"></p>
+        <div class="chart" id="chartRole"></div>
+      </div>
+      <div class="card">
+        <h3>By country</h3>
+        <p class="small muted" id="chartCountrySub" style="margin-bottom:14px"></p>
+        <div class="chart" id="chartCountry"></div>
+      </div>
+    </div>
+    <p class="chart-note">Charts are read from the same table above — switch the table to a different filter and they follow.</p>
+  </section>
+
+  <!-- METHODOLOGY -->
+  <section class="wrap" id="method">
+    <div class="sec-head"><h2>How this works</h2></div>
+
+    <details class="method" open>
+      <summary>Where the numbers come from</summary>
+      <div class="body">
+        <ul>
+          <li><b>Community submissions</b> are anonymous entries from the form. A cohort (role + level + country) needs at least <span class="minN">5</span> of them before its real median is published — below that, one person's salary would be identifiable.</li>
+          <li><b>Indicative ranges</b> are estimates compiled from public recruiter salary guides and community reports for 2025–2026. They are a placeholder, clearly labelled, and are replaced by real data as submissions arrive. Do not quote them as fact.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="method">
+      <summary>What "total package" means</summary>
+      <div class="body">
+        <p style="margin:0 0 .6em">Gulf offers split pay into base plus allowances, which makes headline numbers misleading. Everything here is the <b>monthly total cash package</b>:</p>
+        <ul>
+          <li>Base salary</li>
+          <li>Housing, transport and any other recurring cash allowance</li>
+          <li>Annual bonus, divided by 12</li>
+        </ul>
+        <p style="margin:.6em 0 0">It excludes equity, relocation one-offs, school fees and medical cover — those vary too much to average honestly.</p>
+      </div>
+    </details>
+
+    <details class="method">
+      <summary>Privacy</summary>
+      <div class="body">
+        <ul>
+          <li>No names, no emails, no login. The form does not collect identity.</li>
+          <li>Company name is optional and never shown on a row — only company <i>type</i> is published.</li>
+          <li>Nationality is optional. It is only ever shown as an aggregate over at least <span id="minN2">8</span> people, never on an individual row.</li>
+          <li>Submissions are moderated before publication to strip anything identifying.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="method">
+      <summary>Currency conversion</summary>
+      <div class="body">
+        <p style="margin:0">GCC currencies are pegged to the US dollar, so conversion uses fixed rates rather than a live feed: AED 3.6725, SAR 3.75, QAR 3.64, KWD 0.3065, BHD 0.376, OMR 0.3845 per USD.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="wrap" id="contribute">
+    <div class="card" style="text-align:center">
+      <h2 style="margin-bottom:.3em">The data is only as good as what people share</h2>
+      <p style="max-width:52ch;margin:0 auto 22px">One anonymous submission takes about a minute and makes the next person's negotiation less of a guess.</p>
+      <a class="btn btn-primary" id="ctaFooter" href="#" hidden>Add your salary</a>
+      <p class="small muted" id="noFormHint">Submissions open soon — the form is being set up.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p style="margin:0 0 .4em"><b>GulfPay</b> — anonymous tech salary data for the GCC.</p>
+    <p style="margin:0">Indicative ranges are estimates, not verified data. Nothing here is financial, legal or career advice. <a href="#method">Methodology</a> · <a id="repoLink" href="#">Source on GitHub</a></p>
+  </div>
+</footer>
+
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
